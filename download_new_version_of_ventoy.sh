@@ -5,8 +5,8 @@
 
  exist_curl=n exist_toybox=n exist_busybox=n exist_wget=n
 
- if [ "$(toybox --help 2>/dev/null)" != "" ]; then exist_toybox=y; fi
- if [ "$(busybox --help 2>/dev/null)" != "" ]; then exist_busybox=y; fi
+ if [ "$(toybox --help 2>/dev/null)" != "" ]; then exist_toybox=y && last_args="2>/dev/null"; fi
+ if [ "$(busybox --help 2>/dev/null)" != "" ]; then exist_busybox=y && last_args="-q"; fi
  if [ "$(curl --help 2>/dev/null)" != "" ]; then exist_curl=y; fi
  if [ "$(wget --help 2>/dev/null)" != "" ]; then exist_wget=y; fi
 
@@ -21,7 +21,7 @@
  then program_to_download="curl"
  fi
  
- case $program_to_download in curl) last_args="-s" ;; wget) first_args="-O -" && last_args="-q" ;; esac && export last_args
+ case $program_to_download in curl) last_args="-s" ;; wget) first_args="-O -" ;; esac && export last_args
 
  reading () { url="${1}"; $program_to_download $first_args $url $last_args; }
  
